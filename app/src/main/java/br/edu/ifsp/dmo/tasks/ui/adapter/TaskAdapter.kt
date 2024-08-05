@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import br.edu.ifsp.dmo.tasks.R
 import br.edu.ifsp.dmo.tasks.databinding.ItemTaskBinding
 import br.edu.ifsp.dmo.tasks.dto.TaskDto
+import br.edu.ifsp.dmo.tasks.ui.listener.TaskClickListener
 
-class TaskAdapter: RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+class TaskAdapter(val clickListener: TaskClickListener) :
+    RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view){
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: ItemTaskBinding = ItemTaskBinding.bind(view)
     }
 
@@ -25,9 +27,9 @@ class TaskAdapter: RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val taskDto = dataset[position]
-        val colorId = if(taskDto.isCompleted){
+        val colorId = if (taskDto.isCompleted) {
             R.color.green
-        }else{
+        } else {
             R.color.gray
         }
 
@@ -38,13 +40,16 @@ class TaskAdapter: RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
         holder.binding.textDescription.text = taskDto.description
         holder.binding.imageDone.setColorFilter(color)
+        holder.binding.imageDone.setOnClickListener {
+            clickListener.clickDone(position)
+        }
     }
 
     override fun getItemCount(): Int {
         return dataset.size
     }
 
-    fun submitDasset(data: List<TaskDto>){
+    fun submitDasset(data: List<TaskDto>) {
         dataset = data
     }
 

@@ -8,12 +8,12 @@ object TaskDao {
 
     fun getAllTasks(): List<Task> = tasks
 
-    fun addTask(task: Task){
+    fun addTask(task: Task) {
         tasks.add(task)
     }
 
-    fun getTask(id: Long): Task{
-        return tasks.stream().filter{item -> item.id == id}.findFirst().orElse(null)
+    fun getTask(id: Long): Task {
+        return tasks.stream().filter { item -> item.id == id }.findFirst().orElse(null)
     }
 
 }
